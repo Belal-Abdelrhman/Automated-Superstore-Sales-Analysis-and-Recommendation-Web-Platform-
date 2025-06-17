@@ -1,77 +1,126 @@
-
 import { SuperstoreData, AnalyticsData, ProductRecommendation } from '@/types';
 
-export function processSuperstoreData(data: SuperstoreData[]): AnalyticsData {
+export function processSuperstoreData(data: any[]): AnalyticsData {
   console.log('Processing Superstore data:', data.length, 'records');
+  console.log('Sample data row:', data[0]);
+  
+  // Clean and normalize the data
+  const cleanedData = data.map(row => {
+    // Handle different possible column name formats
+    const normalizeKey = (key: string) => key.toLowerCase().trim();
+    const normalizedRow: any = {};
+    
+    Object.keys(row).forEach(key => {
+      normalizedRow[normalizeKey(key)] = row[key];
+    });
+    
+    return {
+      'order id': normalizedRow['order id'] || normalizedRow['order_id'] || '',
+      'order date': normalizedRow['order date'] || normalizedRow['order_date'] || '',
+      'ship date': normalizedRow['ship date'] || normalizedRow['ship_date'] || '',
+      'ship mode': normalizedRow['ship mode'] || normalizedRow['ship_mode'] || '',
+      'customer id': normalizedRow['customer id'] || normalizedRow['customer_id'] || '',
+      'customer name': normalizedRow['customer name'] || normalizedRow['customer_name'] || '',
+      segment: normalizedRow['segment'] || '',
+      country: normalizedRow['country'] || '',
+      city: normalizedRow['city'] || '',
+      state: normalizedRow['state'] || '',
+      'postal code': normalizedRow['postal code'] || normalizedRow['postal_code'] || '',
+      region: normalizedRow['region'] || '',
+      'product id': normalizedRow['product id'] || normalizedRow['product_id'] || '',
+      category: normalizedRow['category'] || '',
+      'sub-category': normalizedRow['sub-category'] || normalizedRow['sub_category'] || '',
+      'product name': normalizedRow['product name'] || normalizedRow['product_name'] || '',
+      sales: parseFloat(normalizedRow['sales']) || 0,
+      quantity: parseInt(normalizedRow['quantity']) || 0,
+      discount: parseFloat(normalizedRow['discount']) || 0,
+      profit: parseFloat(normalizedRow['profit']) || 0,
+      'days to ship': parseInt(normalizedRow['days to ship'] || normalizedRow['days_to_ship']) || 0,
+      rating: parseFloat(normalizedRow['rating']) || 0
+    };
+  }).filter(row => row.sales > 0); // Filter out invalid rows
+
+  console.log('Cleaned data sample:', cleanedData[0]);
+  console.log('Valid records after cleaning:', cleanedData.length);
   
   // Calculate basic metrics
-  const totalSales = data.reduce((sum, row) => sum + row.sales, 0);
-  const totalProfit = data.reduce((sum, row) => sum + row.profit, 0);
-  const totalOrders = data.length;
-  const avgProfitPerOrder = totalProfit / totalOrders;
-  const uniqueCustomers = new Set(data.map(row => row['customer id'])).size;
+  const totalSales = cleanedData.reduce((sum, row) => sum + row.sales, 0);
+  const totalProfit = cleanedData.reduce((sum, row) => sum + row.profit, 0);
+  const totalOrders = cleanedData.length;
+  const avgProfitPerOrder = totalOrders > 0 ? totalProfit / totalOrders : 0;
+  const uniqueCustomers = new Set(cleanedData.map(row => row['customer id'])).size;
+
+  console.log('Basic metrics:', { totalSales, totalProfit, totalOrders, uniqueCustomers });
 
   // Sales by Region
   const regionMap = new Map<string, { sales: number; profit: number }>();
-  data.forEach(row => {
-    const current = regionMap.get(row.region) || { sales: 0, profit: 0 };
-    regionMap.set(row.region, {
-      sales: current.sales + row.sales,
-      profit: current.profit + row.profit
-    });
+  cleanedData.forEach(row => {
+    if (row.region) {
+      const current = regionMap.get(row.region) || { sales: 0, profit: 0 };
+      regionMap.set(row.region, {
+        sales: current.sales + row.sales,
+        profit: current.profit + row.profit
+      });
+    }
   });
   const salesByRegion = Array.from(regionMap.entries()).map(([region, data]) => ({
     region,
-    sales: data.sales,
-    profit: data.profit
+    sales: Math.round(data.sales),
+    profit: Math.round(data.profit)
   }));
 
   // Sales by Category
   const categoryMap = new Map<string, { sales: number; profit: number }>();
-  data.forEach(row => {
-    const current = categoryMap.get(row.category) || { sales: 0, profit: 0 };
-    categoryMap.set(row.category, {
-      sales: current.sales + row.sales,
-      profit: current.profit + row.profit
-    });
+  cleanedData.forEach(row => {
+    if (row.category) {
+      const current = categoryMap.get(row.category) || { sales: 0, profit: 0 };
+      categoryMap.set(row.category, {
+        sales: current.sales + row.sales,
+        profit: current.profit + row.profit
+      });
+    }
   });
   const salesByCategory = Array.from(categoryMap.entries()).map(([category, data]) => ({
     category,
-    sales: data.sales,
-    profit: data.profit
+    sales: Math.round(data.sales),
+    profit: Math.round(data.profit)
   }));
 
   // Top Products
   const productMap = new Map<string, { sales: number; profit: number }>();
-  data.forEach(row => {
-    const current = productMap.get(row['product name']) || { sales: 0, profit: 0 };
-    productMap.set(row['product name'], {
-      sales: current.sales + row.sales,
-      profit: current.profit + row.profit
-    });
+  cleanedData.forEach(row => {
+    if (row['product name']) {
+      const current = productMap.get(row['product name']) || { sales: 0, profit: 0 };
+      productMap.set(row['product name'], {
+        sales: current.sales + row.sales,
+        profit: current.profit + row.profit
+      });
+    }
   });
   const topProducts = Array.from(productMap.entries())
     .map(([product, data]) => ({
       product,
-      sales: data.sales,
-      profit: data.profit
+      sales: Math.round(data.sales),
+      profit: Math.round(data.profit)
     }))
     .sort((a, b) => b.sales - a.sales)
     .slice(0, 10);
 
   // Top Customers
   const customerMap = new Map<string, { sales: number; orders: number }>();
-  data.forEach(row => {
-    const current = customerMap.get(row['customer name']) || { sales: 0, orders: 0 };
-    customerMap.set(row['customer name'], {
-      sales: current.sales + row.sales,
-      orders: current.orders + 1
-    });
+  cleanedData.forEach(row => {
+    if (row['customer name']) {
+      const current = customerMap.get(row['customer name']) || { sales: 0, orders: 0 };
+      customerMap.set(row['customer name'], {
+        sales: current.sales + row.sales,
+        orders: current.orders + 1
+      });
+    }
   });
   const topCustomers = Array.from(customerMap.entries())
     .map(([customer, data]) => ({
       customer,
-      sales: data.sales,
+      sales: Math.round(data.sales),
       orders: data.orders
     }))
     .sort((a, b) => b.sales - a.sales)
@@ -79,28 +128,36 @@ export function processSuperstoreData(data: SuperstoreData[]): AnalyticsData {
 
   // Monthly Trends
   const monthMap = new Map<string, { sales: number; profit: number }>();
-  data.forEach(row => {
-    const date = new Date(row['order date']);
-    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-    const current = monthMap.get(monthKey) || { sales: 0, profit: 0 };
-    monthMap.set(monthKey, {
-      sales: current.sales + row.sales,
-      profit: current.profit + row.profit
-    });
+  cleanedData.forEach(row => {
+    if (row['order date']) {
+      try {
+        const date = new Date(row['order date']);
+        if (!isNaN(date.getTime())) {
+          const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+          const current = monthMap.get(monthKey) || { sales: 0, profit: 0 };
+          monthMap.set(monthKey, {
+            sales: current.sales + row.sales,
+            profit: current.profit + row.profit
+          });
+        }
+      } catch (error) {
+        console.warn('Invalid date format:', row['order date']);
+      }
+    }
   });
   const monthlyTrends = Array.from(monthMap.entries())
     .map(([month, data]) => ({
       month,
-      sales: data.sales,
-      profit: data.profit
+      sales: Math.round(data.sales),
+      profit: Math.round(data.profit)
     }))
     .sort((a, b) => a.month.localeCompare(b.month));
 
-  return {
-    totalSales,
-    totalProfit,
+  const result = {
+    totalSales: Math.round(totalSales),
+    totalProfit: Math.round(totalProfit),
     totalOrders,
-    avgProfitPerOrder,
+    avgProfitPerOrder: Math.round(avgProfitPerOrder),
     uniqueCustomers,
     salesByRegion,
     salesByCategory,
@@ -108,6 +165,9 @@ export function processSuperstoreData(data: SuperstoreData[]): AnalyticsData {
     topCustomers,
     monthlyTrends
   };
+
+  console.log('Final analytics result:', result);
+  return result;
 }
 
 export function generateProductRecommendations(
@@ -187,7 +247,8 @@ export function validateSuperstoreData(data: any[]): { isValid: boolean; errors:
   const fileColumns = Object.keys(firstRow).map(col => col.toLowerCase());
   
   const missingColumns = requiredColumns.filter(col => 
-    !fileColumns.includes(col.toLowerCase())
+    !fileColumns.includes(col.toLowerCase().replace(/[\s_]/g, ' ')) &&
+    !fileColumns.includes(col.toLowerCase().replace(/[\s]/g, '_'))
   );
   
   if (missingColumns.length > 0) {
