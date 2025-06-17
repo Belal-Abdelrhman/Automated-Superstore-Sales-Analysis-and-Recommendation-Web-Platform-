@@ -269,23 +269,34 @@ export function FileUpload() {
           </Card>
         )}
 
-        {/* Requirements */}
+        {/* Requirements - Updated to show ALL columns */}
         <Card className="bg-blue-50 border-blue-200">
           <CardHeader>
             <CardTitle className="text-lg text-blue-900">Required Columns</CardTitle>
+            <CardDescription className="text-blue-700">
+              Your CSV file must contain all of these columns for proper analysis
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
               {[
-                'order id', 'order date', 'customer id', 'customer name',
-                'segment', 'region', 'category', 'sub-category',
-                'product name', 'sales', 'quantity', 'profit'
+                'order id', 'order date', 'ship date', 'ship mode', 
+                'customer id', 'customer name', 'segment', 'country', 
+                'city', 'state', 'postal code', 'region', 
+                'product id', 'category', 'sub-category', 'product name',
+                'sales', 'quantity', 'discount', 'profit', 
+                'days to ship', 'rating'
               ].map((column) => (
-                <div key={column} className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                  <span className="text-blue-900">{column}</span>
+                <div key={column} className="flex items-center space-x-2 bg-white p-2 rounded border border-blue-200">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full flex-shrink-0"></div>
+                  <span className="text-blue-900 font-medium">{column}</span>
                 </div>
               ))}
+            </div>
+            <div className="mt-4 p-3 bg-blue-100 rounded-lg">
+              <p className="text-sm text-blue-800">
+                <strong>Total: 22 columns required</strong> - Make sure your CSV file contains all these columns with the exact names shown above.
+              </p>
             </div>
           </CardContent>
         </Card>
