@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useApp } from '@/contexts/AppContext';
 import { Button } from '@/components/ui/button';
@@ -407,10 +406,10 @@ export function AnalyticsDashboard() {
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={250}>
-                  <BarChart data={customerReviewsData} layout="horizontal">
+                  <BarChart data={customerReviewsData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis type="number" />
-                    <YAxis dataKey="rating" type="category" width={70} />
+                    <XAxis dataKey="rating" />
+                    <YAxis />
                     <Tooltip formatter={(value) => [`${value} reviews`, 'Count']} />
                     <Bar dataKey="count" fill="#F59E0B" />
                   </BarChart>
