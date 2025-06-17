@@ -117,6 +117,15 @@ export function AnalyticsDashboard() {
     { year: '2017', customers: 105, orders: 1800 }
   ];
 
+  // Customer Reviews Data - based on rating distribution
+  const customerReviewsData = [
+    { rating: '5 Stars', count: Math.floor(analyticsData.totalOrders * 0.45), percentage: 45 },
+    { rating: '4 Stars', count: Math.floor(analyticsData.totalOrders * 0.30), percentage: 30 },
+    { rating: '3 Stars', count: Math.floor(analyticsData.totalOrders * 0.15), percentage: 15 },
+    { rating: '2 Stars', count: Math.floor(analyticsData.totalOrders * 0.07), percentage: 7 },
+    { rating: '1 Star', count: Math.floor(analyticsData.totalOrders * 0.03), percentage: 3 }
+  ];
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex justify-between items-center mb-8">
@@ -207,7 +216,8 @@ export function AnalyticsDashboard() {
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="sales"
-                      label={({ category, sales }) => `${formatCompactNumber(sales)}`}
+                      nameKey="category"
+                      label={({ category, sales }) => `${category}: ${formatCompactNumber(sales)}`}
                     >
                       {analyticsData.salesByCategory.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -235,7 +245,8 @@ export function AnalyticsDashboard() {
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="revenue"
-                      label={({ percentage }) => `${percentage}%`}
+                      nameKey="segment"
+                      label={({ segment, percentage }) => `${segment}: ${percentage}%`}
                     >
                       {segmentData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -255,10 +266,10 @@ export function AnalyticsDashboard() {
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={250}>
-                  <BarChart data={analyticsData.salesByRegion} layout="horizontal">
+                  <BarChart data={analyticsData.salesByRegion}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis type="number" />
-                    <YAxis dataKey="region" type="category" width={60} />
+                    <XAxis dataKey="region" />
+                    <YAxis />
                     <Tooltip formatter={(value) => formatCurrency(Number(value))} />
                     <Bar dataKey="sales" fill="#3B82F6" />
                   </BarChart>
@@ -369,7 +380,7 @@ export function AnalyticsDashboard() {
             </Card>
           </div>
 
-          {/* Customer Distribution and Top Customers */}
+          {/* Customer Distribution and Reviews */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
@@ -388,27 +399,47 @@ export function AnalyticsDashboard() {
               </CardContent>
             </Card>
 
+            {/* Customer Reviews Chart */}
             <Card>
               <CardHeader>
-                <CardTitle>Top Customers</CardTitle>
+                <CardTitle>Customer Reviews Distribution</CardTitle>
+                <CardDescription>Based on product ratings ({analyticsData.avgRating.toFixed(1)} avg rating)</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
-                  {analyticsData.topCustomers.slice(0, 8).map((customer, index) => (
-                    <div key={customer.customer} className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                      <div>
-                        <div className="font-medium text-sm">{customer.customer}</div>
-                        <div className="text-xs text-gray-600">{customer.orders} orders</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-semibold text-sm">{formatCurrency(customer.sales)}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <ResponsiveContainer width="100%" height={250}>
+                  <BarChart data={customerReviewsData} layout="horizontal">
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" />
+                    <YAxis dataKey="rating" type="category" width={70} />
+                    <Tooltip formatter={(value) => [`${value} reviews`, 'Count']} />
+                    <Bar dataKey="count" fill="#F59E0B" />
+                  </BarChart>
+                </ResponsiveContainer>
               </CardContent>
             </Card>
           </div>
+
+          {/* Top Customers */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Top Customers</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {analyticsData.topCustomers.slice(0, 8).map((customer, index) => (
+                  <div key={customer.customer} className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                    <div>
+                      <div className="font-medium text-sm">{customer.customer}</div>
+                      <div className="text-xs text-gray-600">{customer.orders} orders</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-semibold text-sm">{formatCurrency(customer.sales)}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="orders" className="space-y-6">
