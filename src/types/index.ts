@@ -33,13 +33,21 @@ export interface AnalyticsData {
   totalSales: number;
   totalProfit: number;
   totalOrders: number;
+  totalQuantity: number;
   avgProfitPerOrder: number;
   uniqueCustomers: number;
-  salesByRegion: Array<{ region: string; sales: number; profit: number }>;
-  salesByCategory: Array<{ category: string; sales: number; profit: number }>;
-  topProducts: Array<{ product: string; sales: number; profit: number }>;
-  topCustomers: Array<{ customer: string; sales: number; orders: number }>;
-  monthlyTrends: Array<{ month: string; sales: number; profit: number }>;
+  uniqueProducts: number;
+  avgDiscount: number;
+  avgRating: number;
+  salesByRegion: Array<{ region: string; sales: number; profit: number; orders: number; customers: number }>;
+  salesByCategory: Array<{ category: string; sales: number; profit: number; quantity: number }>;
+  salesBySubCategory: Array<{ subCategory: string; sales: number; profit: number }>;
+  salesBySegment: Array<{ segment: string; sales: number; profit: number; customers: number }>;
+  salesByShipMode: Array<{ shipMode: string; sales: number; orders: number; avgDaysToShip: number }>;
+  salesByState: Array<{ state: string; sales: number; profit: number }>;
+  topProducts: Array<{ product: string; sales: number; profit: number; quantity: number; orders: number }>;
+  topCustomers: Array<{ customer: string; sales: number; orders: number; profit: number }>;
+  monthlyTrends: Array<{ month: string; sales: number; profit: number; orders: number; quantity: number }>;
 }
 
 export interface ProductRecommendation {
