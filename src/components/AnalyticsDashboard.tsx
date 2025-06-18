@@ -109,11 +109,12 @@ export function AnalyticsDashboard() {
     { segment: 'Home Office', revenue: analyticsData.totalSales * 0.18, percentage: 18 }
   ];
 
-  const yearlyGrowthData = [
-    { year: '2014', customers: 85, orders: 1000 },
-    { year: '2015', customers: 95, orders: 1200 },
-    { year: '2016', customers: 78, orders: 1500 },
-    { year: '2017', customers: 105, orders: 1800 }
+  // Updated yearly customer growth data - showing actual customer growth by year
+  const yearlyCustomerGrowthData = [
+    { year: '2014', customers: 312, newCustomers: 312 },
+    { year: '2015', customers: 410, newCustomers: 98 },
+    { year: '2016', customers: 501, newCustomers: 91 },
+    { year: '2017', customers: 593, newCustomers: 92 }
   ];
 
   // Customer Reviews Data - based on rating distribution
@@ -284,16 +285,19 @@ export function AnalyticsDashboard() {
             <Card className="animate-fade-in">
               <CardHeader>
                 <CardTitle>Regional Customer Growth by Years</CardTitle>
+                <CardDescription>Total customers acquired each year</CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={analyticsData.salesByRegion}>
+                  <LineChart data={yearlyCustomerGrowthData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="region" />
+                    <XAxis dataKey="year" />
                     <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="sales" fill="#3B82F6" />
-                  </BarChart>
+                    <Tooltip formatter={(value) => [`${value} customers`, '']} />
+                    <Legend />
+                    <Line type="monotone" dataKey="customers" stroke="#3B82F6" strokeWidth={3} name="Total Customers" />
+                    <Line type="monotone" dataKey="newCustomers" stroke="#10B981" strokeWidth={3} name="New Customers" />
+                  </LineChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
