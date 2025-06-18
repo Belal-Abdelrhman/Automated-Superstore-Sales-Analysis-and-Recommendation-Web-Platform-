@@ -355,7 +355,8 @@ export function AnalyticsDashboard() {
         </TabsContent>
 
         <TabsContent value="regional" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Three charts in a row matching the regional dashboard image */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Regional Customer Growth */}
             <Card className="animate-fade-in">
               <CardHeader>
@@ -394,26 +395,26 @@ export function AnalyticsDashboard() {
                 </ResponsiveContainer>
               </CardContent>
             </Card>
-          </div>
 
-          {/* Regional Insights Bar Chart */}
-          <Card className="animate-fade-in">
-            <CardHeader>
-              <CardTitle>Regional Order Insights Over Time</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={analyticsData.salesByRegion}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="region" />
-                  <YAxis />
-                  <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                  <Bar dataKey="sales" fill="#3B82F6" />
-                  <Bar dataKey="profit" fill="#10B981" />
-                </BarChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
+            {/* Regional Insights Bar Chart */}
+            <Card className="animate-fade-in">
+              <CardHeader>
+                <CardTitle>Regional Order Insights Over Time</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={analyticsData.salesByRegion}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="region" />
+                    <YAxis />
+                    <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                    <Bar dataKey="sales" fill="#3B82F6" />
+                    <Bar dataKey="profit" fill="#10B981" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="customer" className="space-y-6">
