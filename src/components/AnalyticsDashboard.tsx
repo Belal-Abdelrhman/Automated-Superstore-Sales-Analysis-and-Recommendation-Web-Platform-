@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import { TrendingUp, DollarSign, ShoppingCart, Users, ArrowRight, Download, Filter, Package, Star, MapPin } from 'lucide-react';
 
@@ -125,6 +126,68 @@ export function AnalyticsDashboard() {
     { year: '2017', orders: 1800 }
   ];
 
+  // Regional Orders by Year data for the new chart
+  const regionalOrdersByYearData = [
+    { year: '2014', Central: 250, East: 300, South: 200, West: 250 },
+    { year: '2015', Central: 300, East: 350, South: 250, West: 300 },
+    { year: '2016', Central: 375, East: 400, South: 325, West: 400 },
+    { year: '2017', Central: 450, East: 500, South: 400, West: 450 }
+  ];
+
+  // Sample order data for the table
+  const orderTableData = [
+    {
+      orderId: 'CA-2017-152156',
+      customerName: 'Claire Gute',
+      orderDate: '2017-11-08',
+      shipMode: 'Second Class',
+      totalRevenue: 261.96,
+      totalProfit: 41.91,
+      profitRatio: 16.0,
+      rating: 4
+    },
+    {
+      orderId: 'CA-2017-152156',
+      customerName: 'Darrin Van Huff',
+      orderDate: '2017-11-08',
+      shipMode: 'Second Class',
+      totalRevenue: 731.94,
+      totalProfit: 219.58,
+      profitRatio: 30.0,
+      rating: 5
+    },
+    {
+      orderId: 'CA-2017-138688',
+      customerName: 'Sean O\'Donnell',
+      orderDate: '2017-06-12',
+      shipMode: 'Second Class',
+      totalRevenue: 14.62,
+      totalProfit: 6.87,
+      profitRatio: 47.0,
+      rating: 3
+    },
+    {
+      orderId: 'US-2016-108966',
+      customerName: 'Brosina Hoffman',
+      orderDate: '2016-10-11',
+      shipMode: 'Standard Class',
+      totalRevenue: 957.58,
+      totalProfit: -383.03,
+      profitRatio: -40.0,
+      rating: 2
+    },
+    {
+      orderId: 'US-2015-108966',
+      customerName: 'Andrew Allen',
+      orderDate: '2015-10-11',
+      shipMode: 'Standard Class',
+      totalRevenue: 22.37,
+      totalProfit: 2.52,
+      profitRatio: 11.3,
+      rating: 4
+    }
+  ];
+
   // Customer Reviews Data - based on rating distribution
   const customerReviewsData = [
     { rating: '5 Stars', count: Math.floor(analyticsData.totalOrders * 0.45), percentage: 45 },
@@ -154,6 +217,22 @@ export function AnalyticsDashboard() {
       >
         {`${(percent * 100).toFixed(0)}%`}
       </text>
+    );
+  };
+
+  // Function to render star ratings
+  const renderStarRating = (rating: number) => {
+    return (
+      <div className="flex items-center">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <Star
+            key={star}
+            className={`w-4 h-4 ${
+              star <= rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+            }`}
+          />
+        ))}
+      </div>
     );
   };
 
@@ -549,21 +628,91 @@ export function AnalyticsDashboard() {
             </Card>
           </div>
 
-          {/* Ship Mode Revenue */}
-          <Card>
+          {/* Charts Row */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Yearly Orders Growth Line Chart */}
+            <Card className="animate-fade-in">
+              <CardHeader>
+                <CardTitle>Yearly Orders Growth</CardTitle>
+                <CardDescription>Total orders from 2014-2017</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={yearlyOrdersGrowthData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="year" />
+                    <YAxis />
+                    <Tooltip formatter={(value) => [`${value} orders`, 'Total Orders']} />
+                    <Legend />
+                    <Line type="monotone" dataKey="orders" stroke="#3B82F6" strokeWidth={3} name="Total Orders" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+
+            {/* Regional Order Insights Over Time */}
+            <Card className="animate-fade-in">
+              <CardHeader>
+                <CardTitle>Regional Order Insights Over Time</CardTitle>
+                <CardDescription>Orders by region and year</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={regionalOrdersByYearData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="year" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="Central" fill="#3B82F6" />
+                    <Bar dataKey="East" fill="#10B981" />
+                    <Bar dataKey="South" fill="#F59E0B" />
+                    <Bar dataKey="West" fill="#EF4444" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Order Table */}
+          <Card className="animate-fade-in">
             <CardHeader>
-              <CardTitle>Ship Mode Revenue Comparison</CardTitle>
+              <CardTitle>Order Details</CardTitle>
+              <CardDescription>Detailed order information with profit analysis</CardDescription>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={shipModeData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="mode" />
-                  <YAxis />
-                  <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                  <Bar dataKey="revenue" fill="#3B82F6" />
-                </BarChart>
-              </ResponsiveContainer>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Order ID</TableHead>
+                    <TableHead>Customer Name</TableHead>
+                    <TableHead>Order Date</TableHead>
+                    <TableHead>Ship Mode</TableHead>
+                    <TableHead>Total Revenue</TableHead>
+                    <TableHead>Total Profit</TableHead>
+                    <TableHead>Profit Ratio</TableHead>
+                    <TableHead>Rating</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {orderTableData.map((order, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-medium">{order.orderId}</TableCell>
+                      <TableCell>{order.customerName}</TableCell>
+                      <TableCell>{order.orderDate}</TableCell>
+                      <TableCell>{order.shipMode}</TableCell>
+                      <TableCell>{formatCurrency(order.totalRevenue)}</TableCell>
+                      <TableCell className={order.totalProfit < 0 ? 'text-red-600 font-semibold' : ''}>
+                        {formatCurrency(order.totalProfit)}
+                      </TableCell>
+                      <TableCell className={order.profitRatio < 0 ? 'text-red-600 font-semibold' : ''}>
+                        {order.profitRatio.toFixed(1)}%
+                      </TableCell>
+                      <TableCell>{renderStarRating(order.rating)}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </CardContent>
           </Card>
         </TabsContent>
