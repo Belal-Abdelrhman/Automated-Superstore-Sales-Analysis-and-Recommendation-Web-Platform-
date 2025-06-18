@@ -117,6 +117,14 @@ export function AnalyticsDashboard() {
     { year: '2017', customers: 593, newCustomers: 92 }
   ];
 
+  // Yearly orders growth data 
+  const yearlyOrdersGrowthData = [
+    { year: '2014', orders: 1000 },
+    { year: '2015', orders: 1200 },
+    { year: '2016', orders: 1500 },
+    { year: '2017', orders: 1800 }
+  ];
+
   // Customer Reviews Data - based on rating distribution
   const customerReviewsData = [
     { rating: '5 Stars', count: Math.floor(analyticsData.totalOrders * 0.45), percentage: 45 },
@@ -309,7 +317,7 @@ export function AnalyticsDashboard() {
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={yearlyGrowthData}>
+                  <LineChart data={yearlyOrdersGrowthData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" />
                     <YAxis />
@@ -371,12 +379,12 @@ export function AnalyticsDashboard() {
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={200}>
-                  <LineChart data={yearlyGrowthData}>
+                  <LineChart data={yearlyCustomerGrowthData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" />
                     <YAxis />
                     <Tooltip />
-                    <Line type="monotone" dataKey="customers" stroke="#3B82F6" strokeWidth={3} />
+                    <Line type="monotone" dataKey="newCustomers" stroke="#3B82F6" strokeWidth={3} />
                   </LineChart>
                 </ResponsiveContainer>
               </CardContent>
