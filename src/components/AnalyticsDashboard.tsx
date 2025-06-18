@@ -134,6 +134,29 @@ export function AnalyticsDashboard() {
     { rating: '1 Star', count: Math.floor(analyticsData.totalOrders * 0.03), percentage: 3 }
   ];
 
+  // Custom label function for pie charts
+  const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, name }: any) => {
+    if (percent < 0.05) return null; // Don't show labels for slices less than 5%
+    const RADIAN = Math.PI / 180;
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text 
+        x={x} 
+        y={y} 
+        fill="white" 
+        textAnchor={x > cx ? 'start' : 'end'} 
+        dominantBaseline="central"
+        fontSize={12}
+        fontWeight="bold"
+      >
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex justify-between items-center mb-8">
@@ -221,17 +244,22 @@ export function AnalyticsDashboard() {
                       data={analyticsData.salesByCategory}
                       cx="50%"
                       cy="50%"
+                      labelLine={false}
+                      label={renderCustomLabel}
                       outerRadius={60}
                       fill="#8884d8"
                       dataKey="sales"
                       nameKey="category"
-                      label={false}
                     >
                       {analyticsData.salesByCategory.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
                     <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                    <Legend 
+                      wrapperStyle={{ fontSize: '10px' }}
+                      iconType="circle"
+                    />
                   </PieChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -249,17 +277,22 @@ export function AnalyticsDashboard() {
                       data={segmentData}
                       cx="50%"
                       cy="50%"
+                      labelLine={false}
+                      label={renderCustomLabel}
                       outerRadius={60}
                       fill="#8884d8"
                       dataKey="revenue"
                       nameKey="segment"
-                      label={false}
                     >
                       {segmentData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
                     <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                    <Legend 
+                      wrapperStyle={{ fontSize: '10px' }}
+                      iconType="circle"
+                    />
                   </PieChart>
                 </ResponsiveContainer>
               </CardContent>
