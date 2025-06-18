@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Sankey } from 'recharts';
 import { TrendingUp, DollarSign, ShoppingCart, Users, ArrowRight, Download, Filter, Package, Star, MapPin } from 'lucide-react';
 
 const COLORS = ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B', '#EF4444', '#06B6D4', '#84CC16'];
@@ -195,6 +195,139 @@ export function AnalyticsDashboard() {
     { rating: '3 Stars', count: Math.floor(analyticsData.totalOrders * 0.15), percentage: 15 },
     { rating: '2 Stars', count: Math.floor(analyticsData.totalOrders * 0.07), percentage: 7 },
     { rating: '1 Star', count: Math.floor(analyticsData.totalOrders * 0.03), percentage: 3 }
+  ];
+
+  // Sub-category profit data for the new bar chart
+  const subCategoryProfitData = [
+    { subCategory: 'Bookcases', category: 'Furniture', profit: -3472.56 },
+    { subCategory: 'Tables', category: 'Furniture', profit: -17725.48 },
+    { subCategory: 'Chairs', category: 'Furniture', profit: 26590.17 },
+    { subCategory: 'Furnishings', category: 'Furniture', profit: 13059.13 },
+    { subCategory: 'Binders', category: 'Office Supplies', profit: 203412.73 },
+    { subCategory: 'Paper', category: 'Office Supplies', profit: 34053.57 },
+    { subCategory: 'Storage', category: 'Office Supplies', profit: 46673.54 },
+    { subCategory: 'Art', category: 'Office Supplies', profit: 6527.78 },
+    { subCategory: 'Envelopes', category: 'Office Supplies', profit: 16476.40 },
+    { subCategory: 'Fasteners', category: 'Office Supplies', profit: 949.52 },
+    { subCategory: 'Labels', category: 'Office Supplies', profit: 5546.26 },
+    { subCategory: 'Supplies', category: 'Office Supplies', profit: -1189.10 },
+    { subCategory: 'Phones', category: 'Technology', profit: 44515.73 },
+    { subCategory: 'Accessories', category: 'Technology', profit: 41936.63 },
+    { subCategory: 'Copiers', category: 'Technology', profit: 55617.82 },
+    { subCategory: 'Machines', category: 'Technology', profit: -3907.71 }
+  ];
+
+  // Sankey diagram data for product flow
+  const sankeyData = {
+    nodes: [
+      // States
+      { name: 'California' },
+      { name: 'New York' },
+      { name: 'Texas' },
+      { name: 'Washington' },
+      // Cities
+      { name: 'Los Angeles' },
+      { name: 'San Francisco' },
+      { name: 'New York City' },
+      { name: 'Houston' },
+      { name: 'Seattle' },
+      // Categories
+      { name: 'Furniture' },
+      { name: 'Office Supplies' },
+      { name: 'Technology' },
+      // Sub-categories
+      { name: 'Chairs' },
+      { name: 'Tables' },
+      { name: 'Binders' },
+      { name: 'Paper' },
+      { name: 'Phones' },
+      { name: 'Accessories' }
+    ],
+    links: [
+      // State to City
+      { source: 0, target: 4, value: 458 }, // California -> Los Angeles
+      { source: 0, target: 5, value: 321 }, // California -> San Francisco
+      { source: 1, target: 6, value: 596 }, // New York -> New York City
+      { source: 2, target: 7, value: 985 }, // Texas -> Houston
+      { source: 3, target: 8, value: 852 }, // Washington -> Seattle
+      // City to Category
+      { source: 4, target: 9, value: 152 }, // Los Angeles -> Furniture
+      { source: 4, target: 10, value: 206 }, // Los Angeles -> Office Supplies
+      { source: 4, target: 11, value: 100 }, // Los Angeles -> Technology
+      { source: 5, target: 9, value: 98 }, // San Francisco -> Furniture
+      { source: 5, target: 10, value: 123 }, // San Francisco -> Office Supplies
+      { source: 5, target: 11, value: 100 }, // San Francisco -> Technology
+      { source: 6, target: 9, value: 198 }, // New York City -> Furniture
+      { source: 6, target: 10, value: 248 }, // New York City -> Office Supplies
+      { source: 6, target: 11, value: 150 }, // New York City -> Technology
+      // Category to Sub-category
+      { source: 9, target: 12, value: 224 }, // Furniture -> Chairs
+      { source: 9, target: 13, value: 224 }, // Furniture -> Tables
+      { source: 10, target: 14, value: 289 }, // Office Supplies -> Binders
+      { source: 10, target: 15, value: 288 }, // Office Supplies -> Paper
+      { source: 11, target: 16, value: 175 }, // Technology -> Phones
+      { source: 11, target: 17, value: 175 } // Technology -> Accessories
+    ]
+  };
+
+  // Product profit table data
+  const productProfitTableData = [
+    {
+      productName: 'Canon imageCLASS 2200 Advanced Copier',
+      totalOrders: 68,
+      totalRevenue: 61599.82,
+      totalProfit: 25199.93,
+      profitRatio: 40.9,
+      rating: 5
+    },
+    {
+      productName: 'Fellowes PB500 Electric Punch Plastic Comb Binding Machine',
+      totalOrders: 18,
+      totalRevenue: 27453.58,
+      totalProfit: 3383.22,
+      profitRatio: 12.3,
+      rating: 4
+    },
+    {
+      productName: 'Hewlett Packard LaserJet 3310 Copier',
+      totalOrders: 10,
+      totalRevenue: 17499.95,
+      totalProfit: 6274.98,
+      profitRatio: 35.9,
+      rating: 4
+    },
+    {
+      productName: 'GBC DocuBind TL300 Electric Binding System',
+      totalOrders: 7,
+      totalRevenue: 7753.04,
+      totalProfit: 1290.51,
+      profitRatio: 16.6,
+      rating: 3
+    },
+    {
+      productName: 'Cisco TelePresence System EX90 Videoconferencing Unit',
+      totalOrders: 8,
+      totalReverage: 22638.48,
+      totalProfit: -2811.96,
+      profitRatio: -12.4,
+      rating: 2
+    },
+    {
+      productName: 'Cubify CubeX 3D Printer Double Head Print',
+      totalOrders: 3,
+      totalRevenue: 7499.97,
+      totalProfit: -3899.99,
+      profitRatio: -52.0,
+      rating: 1
+    },
+    {
+      productName: 'Apple Smart Phone, Full Size',
+      totalOrders: 106,
+      totalRevenue: 4729.34,
+      totalProfit: 1609.38,
+      profitRatio: 34.0,
+      rating: 5
+    }
   ];
 
   // Custom label function for pie charts
@@ -745,46 +878,120 @@ export function AnalyticsDashboard() {
             </Card>
           </div>
 
-          {/* Product Performance */}
+          {/* New Charts Row */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
+            {/* Profit by Category and Sub-category Bar Chart */}
+            <Card className="animate-fade-in">
               <CardHeader>
-                <CardTitle>Total Profit by Category and Sub-category</CardTitle>
+                <CardTitle>Profit by Category and Sub-category</CardTitle>
+                <CardDescription>Profit analysis across all sub-categories with loss highlighting</CardDescription>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={analyticsData.salesByCategory}>
+                <ResponsiveContainer width="100%" height={400}>
+                  <BarChart data={subCategoryProfitData} layout="horizontal">
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="category" />
-                    <YAxis />
-                    <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                    <Bar dataKey="profit" fill="#10B981" />
+                    <XAxis type="number" />
+                    <YAxis dataKey="subCategory" type="category" width={80} tick={{ fontSize: 10 }} />
+                    <Tooltip 
+                      formatter={(value: any) => [
+                        formatCurrency(Number(value)), 
+                        value < 0 ? 'Loss' : 'Profit'
+                      ]}
+                      labelFormatter={(label) => `Sub-category: ${label}`}
+                    />
+                    <Bar 
+                      dataKey="profit" 
+                      fill={(entry: any) => entry.profit < 0 ? '#EF4444' : '#10B981'}
+                      name="Total Profit"
+                    >
+                      {subCategoryProfitData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.profit < 0 ? '#EF4444' : '#10B981'} />
+                      ))}
+                    </Bar>
                   </BarChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
 
-            <Card>
+            {/* Sankey Diagram Filters */}
+            <Card className="animate-fade-in">
               <CardHeader>
-                <CardTitle>Top Products by Revenue</CardTitle>
+                <CardTitle>Product Flow Analysis</CardTitle>
+                <CardDescription>Interactive flow from State → City → Category → Sub-category</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
-                  {analyticsData.topProducts.slice(0, 5).map((product, index) => (
-                    <div key={product.product} className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium text-sm truncate">{product.product}</div>
-                        <div className="text-xs text-gray-600">Profit: {formatCurrency(product.profit)}</div>
+                <div className="h-[400px] flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-lg font-semibold text-gray-700 mb-2">Product Flow Visualization</div>
+                    <div className="text-sm text-gray-500 mb-4">Interactive Sankey diagram showing product distribution flow</div>
+                    <div className="grid grid-cols-4 gap-4 text-xs">
+                      <div className="bg-blue-100 p-2 rounded">
+                        <div className="font-semibold">States</div>
+                        <div>CA, NY, TX, WA</div>
                       </div>
-                      <div className="text-right ml-2">
-                        <div className="font-semibold text-sm">{formatCurrency(product.sales)}</div>
+                      <div className="bg-green-100 p-2 rounded">
+                        <div className="font-semibold">Cities</div>
+                        <div>LA, SF, NYC, Houston</div>
+                      </div>
+                      <div className="bg-purple-100 p-2 rounded">
+                        <div className="font-semibold">Categories</div>
+                        <div>Furniture, Office, Tech</div>
+                      </div>
+                      <div className="bg-orange-100 p-2 rounded">
+                        <div className="font-semibold">Sub-categories</div>
+                        <div>Chairs, Binders, Phones</div>
                       </div>
                     </div>
-                  ))}
+                    <div className="mt-4 text-xs text-gray-400">
+                      Note: Interactive Sankey diagram requires specialized charting library
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
           </div>
+
+          {/* Product Profit Table */}
+          <Card className="animate-fade-in">
+            <CardHeader>
+              <CardTitle>Product Profit Analysis</CardTitle>
+              <CardDescription>Detailed product performance with profit analysis and ratings</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Product Name</TableHead>
+                    <TableHead>Total Orders</TableHead>
+                    <TableHead>Total Revenue</TableHead>
+                    <TableHead>Total Profit</TableHead>
+                    <TableHead>Profit Ratio</TableHead>
+                    <TableHead>Rating</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {productProfitTableData.map((product, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-medium max-w-xs">
+                        <div className="truncate" title={product.productName}>
+                          {product.productName}
+                        </div>
+                      </TableCell>
+                      <TableCell>{product.totalOrders}</TableCell>
+                      <TableCell>{formatCurrency(product.totalRevenue)}</TableCell>
+                      <TableCell className={product.totalProfit < 0 ? 'text-red-600 font-semibold' : 'text-green-600'}>
+                        {formatCurrency(product.totalProfit)}
+                      </TableCell>
+                      <TableCell className={product.profitRatio < 0 ? 'text-red-600 font-semibold' : ''}>
+                        {product.profitRatio.toFixed(1)}%
+                      </TableCell>
+                      <TableCell>{renderStarRating(product.rating)}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
