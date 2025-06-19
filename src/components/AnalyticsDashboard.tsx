@@ -7,8 +7,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import { TrendingUp, DollarSign, ShoppingCart, Users, ArrowRight, Download, Filter, Package, Star, MapPin } from 'lucide-react';
+import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps';
 
 const COLORS = ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B', '#EF4444', '#06B6D4', '#84CC16'];
+
+// US states topology URL
+const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
 export function AnalyticsDashboard() {
   const { analyticsData, setCurrentStep } = useApp();
@@ -332,6 +336,71 @@ export function AnalyticsDashboard() {
     { year: '2017', East: 827463.52, West: 934582.77, Central: 633259.44, South: 522904.61 }
   ];
 
+  // State profit data for choropleth map
+  const stateProfitData = [
+    { state: "California", profit: 76381.39 },
+    { state: "New York", profit: 74039.78 },
+    { state: "Washington", profit: 33402.65 },
+    { state: "Michigan", profit: 25045.05 },
+    { state: "Indiana", profit: 24532.29 },
+    { state: "Illinois", profit: 19703.88 },
+    { state: "Connecticut", profit: 17809.83 },
+    { state: "Delaware", profit: 17614.29 },
+    { state: "Kentucky", profit: 14662.37 },
+    { state: "Utah", profit: 11992.18 },
+    { state: "Virginia", profit: 10780.68 },
+    { state: "Wisconsin", profit: 10298.05 },
+    { state: "New Hampshire", profit: 9781.88 },
+    { state: "Massachusetts", profit: 9294.07 },
+    { state: "Georgia", profit: 8465.05 },
+    { state: "Maryland", profit: 7990.48 },
+    { state: "Rhode Island", profit: 7575.59 },
+    { state: "Minnesota", profit: 6753.94 },
+    { state: "Montana", profit: 6170.49 },
+    { state: "Vermont", profit: 5906.17 },
+    { state: "Nevada", profit: 3609.68 },
+    { state: "Alabama", profit: 3186.30 },
+    { state: "Arizona", profit: 2842.54 },
+    { state: "Florida", profit: 2819.65 },
+    { state: "New Mexico", profit: 1982.47 },
+    { state: "Louisiana", profit: 1903.90 },
+    { state: "Tennessee", profit: 1838.96 },
+    { state: "New Jersey", profit: 1614.82 },
+    { state: "Arkansas", profit: 1402.52 },
+    { state: "South Carolina", profit: 1237.64 },
+    { state: "Iowa", profit: 1148.90 },
+    { state: "Missouri", profit: 1069.93 },
+    { state: "Oregon", profit: 1010.60 },
+    { state: "Maine", profit: 673.58 },
+    { state: "West Virginia", profit: 508.18 },
+    { state: "Oklahoma", profit: 407.68 },
+    { state: "Mississippi", profit: 177.62 },
+    { state: "Nebraska", profit: 146.91 },
+    { state: "Colorado", profit: 132.12 },
+    { state: "Kansas", profit: 37.56 },
+    { state: "North Dakota", profit: -919.70 },
+    { state: "Pennsylvania", profit: -3582.26 },
+    { state: "Ohio", profit: -4310.33 },
+    { state: "North Carolina", profit: -6518.20 },
+    { state: "Texas", profit: -25729.38 }
+  ];
+
+  // Create a map for quick lookup
+  const stateProfitMap = Object.fromEntries(
+    stateProfitData.map(item => [item.state, item.profit])
+  );
+
+  // Get color for state based on profit
+  const getStateColor = (profit: number) => {
+    if (profit < 0) return '#EF4444'; // Red for losses
+    if (profit === 0) return '#E5E7EB'; // Gray for no data
+    if (profit < 5000) return '#FEF3C7'; // Light yellow for low profit
+    if (profit < 15000) return '#A7F3D0'; // Light green for medium profit
+    if (profit < 30000) return '#6EE7B7'; // Medium green for good profit
+    if (profit < 50000) return '#34D399'; // Darker green for high profit
+    return '#10B981'; // Darkest green for highest profit
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex justify-between items-center mb-8">
@@ -530,6 +599,70 @@ export function AnalyticsDashboard() {
         </TabsContent>
 
         <TabsContent value="regional" className="space-y-6">
+          {/* US Profit Map */}
+          <Card className="animate-fade-in">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <MapPin className="w-5 h-5" />
+                Total Profit by State
+              </CardTitle>
+              <CardDescription>Geographic visualization of profit distribution across U.S. states</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="mb-4">
+                <div className="flex items-center gap-4 text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-red-500 rounded"></div>
+                    <span>Loss</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-yellow-200 rounded"></div>
+                    <span>Low Profit</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-green-300 rounded"></div>
+                    <span>Medium Profit</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-green-600 rounded"></div>
+                    <span>High Profit</span>
+                  </div>
+                </div>
+              </div>
+              <div style={{ width: '100%', height: '400px' }}>
+                <ComposableMap projection="geoAlbersUsa" width={800} height={400}>
+                  <ZoomableGroup>
+                    <Geographies geography={geoUrl}>
+                      {({ geographies }) =>
+                        geographies.map((geo) => {
+                          const stateName = geo.properties.name;
+                          const profit = stateProfitMap[stateName] || 0;
+                          const color = getStateColor(profit);
+                          
+                          return (
+                            <Geography
+                              key={geo.rsmKey}
+                              geography={geo}
+                              fill={color}
+                              stroke="#FFFFFF"
+                              strokeWidth={0.5}
+                              style={{
+                                default: { outline: 'none' },
+                                hover: { outline: 'none', fill: '#374151' },
+                                pressed: { outline: 'none' },
+                              }}
+                              title={`${stateName}: ${formatCurrency(profit)}`}
+                            />
+                          );
+                        })
+                      }
+                    </Geographies>
+                  </ZoomableGroup>
+                </ComposableMap>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Two charts in a row matching the updated regional dashboard */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Regional Customer Growth by Years */}
