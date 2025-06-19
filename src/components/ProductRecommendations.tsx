@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useApp } from '@/contexts/AppContext';
 import { Button } from '@/components/ui/button';
@@ -35,11 +34,15 @@ export function ProductRecommendations() {
     setIsLoading(true);
     console.log('Generating recommendations for customer:', selectedCustomerId);
     
-    // Get customer info - fix the calculation
+    // Get customer info - fix the calculation by properly parsing sales as numbers
     const customerData = rawData.filter(row => row['customer id'] === selectedCustomerId);
     if (customerData.length > 0) {
       const customer = customerData[0];
-      const totalSpent = customerData.reduce((sum, row) => sum + (row.sales || 0), 0);
+      // Ensure sales values are properly converted to numbers
+      const totalSpent = customerData.reduce((sum, row) => {
+        const salesValue = typeof row.sales === 'string' ? parseFloat(row.sales) : row.sales;
+        return sum + (isNaN(salesValue) ? 0 : salesValue);
+      }, 0);
       const avgOrderValue = customerData.length > 0 ? totalSpent / customerData.length : 0;
       
       console.log('Customer calculation:', {

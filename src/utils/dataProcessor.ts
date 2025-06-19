@@ -1,4 +1,3 @@
-
 import { SuperstoreData, AnalyticsData, ProductRecommendation } from '@/types';
 
 export function processSuperstoreData(data: any[]): AnalyticsData {
@@ -366,8 +365,10 @@ export function generateProductRecommendations(
         category: row.category, 
         subCategory: row['sub-category'] 
       };
+      // Ensure sales is properly converted to number
+      const salesValue = typeof row.sales === 'string' ? parseFloat(row.sales) : row.sales;
       productStats.set(row['product name'], {
-        sales: current.sales + row.sales,
+        sales: current.sales + (isNaN(salesValue) ? 0 : salesValue),
         count: current.count + 1,
         category: row.category,
         subCategory: row['sub-category']
