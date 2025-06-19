@@ -651,7 +651,6 @@ export function AnalyticsDashboard() {
                                 hover: { outline: 'none', fill: '#374151' },
                                 pressed: { outline: 'none' },
                               }}
-                              title={`${stateName}: ${formatCurrency(profit)}`}
                             />
                           );
                         })
