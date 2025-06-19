@@ -316,6 +316,22 @@ export function AnalyticsDashboard() {
     );
   };
 
+  // Updated regional customer growth data - showing customers by region and year
+  const regionalCustomerGrowthData = [
+    { year: '2014', East: 78, West: 89, Central: 72, South: 73 },
+    { year: '2015', East: 24, West: 28, Central: 23, South: 23 },
+    { year: '2016', East: 22, West: 25, Central: 21, South: 23 },
+    { year: '2017', East: 23, West: 25, Central: 22, South: 22 }
+  ];
+
+  // Regional sales by year data for the updated chart
+  const regionalSalesByYearData = [
+    { year: '2014', East: 678781.24, West: 725457.82, Central: 501239.89, South: 391721.91 },
+    { year: '2015', East: 735463.44, West: 793629.49, Central: 550542.21, South: 432102.37 },
+    { year: '2016', East: 780542.33, West: 868379.95, Central: 595431.77, South: 484267.93 },
+    { year: '2017', East: 827463.52, West: 934582.77, Central: 633259.44, South: 522904.61 }
+  ];
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex justify-between items-center mb-8">
@@ -514,61 +530,49 @@ export function AnalyticsDashboard() {
         </TabsContent>
 
         <TabsContent value="regional" className="space-y-6">
-          {/* Three charts in a row matching the regional dashboard image */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Regional Customer Growth */}
+          {/* Two charts in a row matching the updated regional dashboard */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Regional Customer Growth by Years */}
             <Card className="animate-fade-in">
               <CardHeader>
                 <CardTitle>Regional Customer Growth by Years</CardTitle>
-                <CardDescription>Total customers acquired each year</CardDescription>
+                <CardDescription>New customers acquired by region each year</CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={yearlyCustomerGrowthData}>
+                  <BarChart data={regionalCustomerGrowthData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" />
                     <YAxis />
                     <Tooltip formatter={(value) => [`${value} customers`, '']} />
                     <Legend />
-                    <Line type="monotone" dataKey="customers" stroke="#3B82F6" strokeWidth={3} name="Total Customers" />
-                    <Line type="monotone" dataKey="newCustomers" stroke="#10B981" strokeWidth={3} name="New Customers" />
-                  </LineChart>
+                    <Bar dataKey="East" fill="#3B82F6" />
+                    <Bar dataKey="West" fill="#10B981" />
+                    <Bar dataKey="Central" fill="#F59E0B" />
+                    <Bar dataKey="South" fill="#EF4444" />
+                  </BarChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
 
-            {/* Yearly Growth */}
+            {/* Regional Sales by Years */}
             <Card className="animate-fade-in">
               <CardHeader>
-                <CardTitle>Yearly Orders Growth</CardTitle>
+                <CardTitle>Regional Sales by Years</CardTitle>
+                <CardDescription>Total sales amount by region each year</CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={yearlyOrdersGrowthData}>
+                  <BarChart data={regionalSalesByYearData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" />
                     <YAxis />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="orders" stroke="#10B981" strokeWidth={3} />
-                  </LineChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-
-            {/* Regional Insights Bar Chart */}
-            <Card className="animate-fade-in">
-              <CardHeader>
-                <CardTitle>Regional Order Insights Over Time</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={analyticsData.salesByRegion}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="region" />
-                    <YAxis />
-                    <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                    <Bar dataKey="sales" fill="#3B82F6" />
-                    <Bar dataKey="profit" fill="#10B981" />
+                    <Tooltip formatter={(value) => [formatCurrency(Number(value)), 'Sales']} />
+                    <Legend />
+                    <Bar dataKey="East" fill="#3B82F6" />
+                    <Bar dataKey="West" fill="#10B981" />
+                    <Bar dataKey="Central" fill="#F59E0B" />
+                    <Bar dataKey="South" fill="#EF4444" />
                   </BarChart>
                 </ResponsiveContainer>
               </CardContent>
