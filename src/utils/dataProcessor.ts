@@ -323,17 +323,32 @@ export function generateProductRecommendations(
   
   // Get customer's purchase history
   const customerPurchases = data.filter(row => row['customer id'] === customerId);
+  console.log('Customer purchases found:', customerPurchases.length);
+  
+  if (customerPurchases.length === 0) {
+    console.log('No purchases found for customer:', customerId);
+    return [];
+  }
+  
   const purchasedProducts = new Set(customerPurchases.map(row => row['product name']));
   
   // Find similar customers (same segment and region)
   const customer = customerPurchases[0];
   if (!customer) return [];
   
+  console.log('Customer info:', {
+    segment: customer.segment,
+    region: customer.region,
+    totalPurchases: customerPurchases.length
+  });
+  
   const similarCustomers = data.filter(row => 
     row.segment === customer.segment && 
     row.region === customer.region &&
     row['customer id'] !== customerId
   );
+  
+  console.log('Similar customers found:', similarCustomers.length);
   
   // Calculate product popularity among similar customers
   const productStats = new Map<string, { 
@@ -359,6 +374,8 @@ export function generateProductRecommendations(
       });
     }
   });
+  
+  console.log('Product stats calculated:', productStats.size);
   
   // Generate recommendations
   return Array.from(productStats.entries())

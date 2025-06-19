@@ -35,22 +35,33 @@ export function ProductRecommendations() {
     setIsLoading(true);
     console.log('Generating recommendations for customer:', selectedCustomerId);
     
-    // Get customer info
+    // Get customer info - fix the calculation
     const customerData = rawData.filter(row => row['customer id'] === selectedCustomerId);
     if (customerData.length > 0) {
       const customer = customerData[0];
-      setCustomerInfo({
-        name: customer['customer name'],
-        segment: customer.segment,
-        region: customer.region,
+      const totalSpent = customerData.reduce((sum, row) => sum + (row.sales || 0), 0);
+      const avgOrderValue = customerData.length > 0 ? totalSpent / customerData.length : 0;
+      
+      console.log('Customer calculation:', {
         totalOrders: customerData.length,
-        totalSpent: customerData.reduce((sum, row) => sum + row.sales, 0),
-        avgOrderValue: customerData.reduce((sum, row) => sum + row.sales, 0) / customerData.length
+        totalSpent,
+        avgOrderValue,
+        sampleRow: customerData[0]
+      });
+      
+      setCustomerInfo({
+        name: customer['customer name'] || 'Unknown',
+        segment: customer.segment || 'Unknown',
+        region: customer.region || 'Unknown',
+        totalOrders: customerData.length,
+        totalSpent,
+        avgOrderValue
       });
     }
     
     // Generate recommendations
     const recs = generateProductRecommendations(rawData, selectedCustomerId);
+    console.log('Recommendations generated:', recs.length);
     setRecommendations(recs);
     setIsLoading(false);
   };
