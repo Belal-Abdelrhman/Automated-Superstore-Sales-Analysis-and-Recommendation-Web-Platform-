@@ -661,21 +661,27 @@ export function AnalyticsDashboard() {
           <Card>
             <CardHeader>
               <CardTitle>Top Customers</CardTitle>
+              <CardDescription>Highest revenue generating customers</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                {analyticsData.topCustomers.slice(0, 8).map((customer, index) => (
-                  <div key={customer.customer} className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                    <div>
-                      <div className="font-medium text-sm">{customer.customer}</div>
-                      <div className="text-xs text-gray-600">{customer.orders} orders</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-semibold text-sm">{formatCurrency(customer.sales)}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Customer Name</TableHead>
+                    <TableHead>Total Orders</TableHead>
+                    <TableHead>Total Revenue</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {analyticsData.topCustomers.slice(0, 8).map((customer, index) => (
+                    <TableRow key={customer.customer}>
+                      <TableCell className="font-medium">{customer.customer}</TableCell>
+                      <TableCell>{customer.orders}</TableCell>
+                      <TableCell className="font-semibold">{formatCurrency(customer.sales)}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </CardContent>
           </Card>
         </TabsContent>
