@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Sankey } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import { TrendingUp, DollarSign, ShoppingCart, Users, ArrowRight, Download, Filter, Package, Star, MapPin } from 'lucide-react';
 
 const COLORS = ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B', '#EF4444', '#06B6D4', '#84CC16'];
@@ -134,7 +134,7 @@ export function AnalyticsDashboard() {
     { year: '2017', Central: 450, East: 500, South: 400, West: 450 }
   ];
 
-  // Sample order data for the table
+  // Sample order data for the table - Fixed the apostrophe issue
   const orderTableData = [
     {
       orderId: 'CA-2017-152156',
@@ -158,7 +158,7 @@ export function AnalyticsDashboard() {
     },
     {
       orderId: 'CA-2017-138688',
-      customerName: 'Sean O'Donnell',
+      customerName: "Sean O'Donnell",
       orderDate: '2017-06-12',
       shipMode: 'Second Class',
       totalRevenue: 14.62,
