@@ -158,7 +158,7 @@ export function AnalyticsDashboard() {
     },
     {
       orderId: 'CA-2017-138688',
-      customerName: 'Sean O\'Donnell',
+      customerName: 'Sean O'Donnell',
       orderDate: '2017-06-12',
       shipMode: 'Second Class',
       totalRevenue: 14.62,
@@ -197,78 +197,25 @@ export function AnalyticsDashboard() {
     { rating: '1 Star', count: Math.floor(analyticsData.totalOrders * 0.03), percentage: 3 }
   ];
 
-  // Sub-category profit data for the new bar chart
+  // Sub-category profit data for the new bar chart - Fixed data structure
   const subCategoryProfitData = [
-    { subCategory: 'Bookcases', category: 'Furniture', profit: -3472.56 },
-    { subCategory: 'Tables', category: 'Furniture', profit: -17725.48 },
-    { subCategory: 'Chairs', category: 'Furniture', profit: 26590.17 },
-    { subCategory: 'Furnishings', category: 'Furniture', profit: 13059.13 },
-    { subCategory: 'Binders', category: 'Office Supplies', profit: 203412.73 },
-    { subCategory: 'Paper', category: 'Office Supplies', profit: 34053.57 },
-    { subCategory: 'Storage', category: 'Office Supplies', profit: 46673.54 },
-    { subCategory: 'Art', category: 'Office Supplies', profit: 6527.78 },
-    { subCategory: 'Envelopes', category: 'Office Supplies', profit: 16476.40 },
-    { subCategory: 'Fasteners', category: 'Office Supplies', profit: 949.52 },
-    { subCategory: 'Labels', category: 'Office Supplies', profit: 5546.26 },
-    { subCategory: 'Supplies', category: 'Office Supplies', profit: -1189.10 },
+    { subCategory: 'Copiers', category: 'Technology', profit: 55617.82 },
     { subCategory: 'Phones', category: 'Technology', profit: 44515.73 },
     { subCategory: 'Accessories', category: 'Technology', profit: 41936.63 },
-    { subCategory: 'Copiers', category: 'Technology', profit: 55617.82 },
-    { subCategory: 'Machines', category: 'Technology', profit: -3907.71 }
+    { subCategory: 'Storage', category: 'Office Supplies', profit: 46673.54 },
+    { subCategory: 'Paper', category: 'Office Supplies', profit: 34053.57 },
+    { subCategory: 'Chairs', category: 'Furniture', profit: 26590.17 },
+    { subCategory: 'Binders', category: 'Office Supplies', profit: 20341.27 },
+    { subCategory: 'Envelopes', category: 'Office Supplies', profit: 16476.40 },
+    { subCategory: 'Furnishings', category: 'Furniture', profit: 13059.13 },
+    { subCategory: 'Art', category: 'Office Supplies', profit: 6527.78 },
+    { subCategory: 'Labels', category: 'Office Supplies', profit: 5546.26 },
+    { subCategory: 'Fasteners', category: 'Office Supplies', profit: 949.52 },
+    { subCategory: 'Supplies', category: 'Office Supplies', profit: -1189.10 },
+    { subCategory: 'Bookcases', category: 'Furniture', profit: -3472.56 },
+    { subCategory: 'Machines', category: 'Technology', profit: -3907.71 },
+    { subCategory: 'Tables', category: 'Furniture', profit: -17725.48 }
   ];
-
-  // Sankey diagram data for product flow
-  const sankeyData = {
-    nodes: [
-      // States
-      { name: 'California' },
-      { name: 'New York' },
-      { name: 'Texas' },
-      { name: 'Washington' },
-      // Cities
-      { name: 'Los Angeles' },
-      { name: 'San Francisco' },
-      { name: 'New York City' },
-      { name: 'Houston' },
-      { name: 'Seattle' },
-      // Categories
-      { name: 'Furniture' },
-      { name: 'Office Supplies' },
-      { name: 'Technology' },
-      // Sub-categories
-      { name: 'Chairs' },
-      { name: 'Tables' },
-      { name: 'Binders' },
-      { name: 'Paper' },
-      { name: 'Phones' },
-      { name: 'Accessories' }
-    ],
-    links: [
-      // State to City
-      { source: 0, target: 4, value: 458 }, // California -> Los Angeles
-      { source: 0, target: 5, value: 321 }, // California -> San Francisco
-      { source: 1, target: 6, value: 596 }, // New York -> New York City
-      { source: 2, target: 7, value: 985 }, // Texas -> Houston
-      { source: 3, target: 8, value: 852 }, // Washington -> Seattle
-      // City to Category
-      { source: 4, target: 9, value: 152 }, // Los Angeles -> Furniture
-      { source: 4, target: 10, value: 206 }, // Los Angeles -> Office Supplies
-      { source: 4, target: 11, value: 100 }, // Los Angeles -> Technology
-      { source: 5, target: 9, value: 98 }, // San Francisco -> Furniture
-      { source: 5, target: 10, value: 123 }, // San Francisco -> Office Supplies
-      { source: 5, target: 11, value: 100 }, // San Francisco -> Technology
-      { source: 6, target: 9, value: 198 }, // New York City -> Furniture
-      { source: 6, target: 10, value: 248 }, // New York City -> Office Supplies
-      { source: 6, target: 11, value: 150 }, // New York City -> Technology
-      // Category to Sub-category
-      { source: 9, target: 12, value: 224 }, // Furniture -> Chairs
-      { source: 9, target: 13, value: 224 }, // Furniture -> Tables
-      { source: 10, target: 14, value: 289 }, // Office Supplies -> Binders
-      { source: 10, target: 15, value: 288 }, // Office Supplies -> Paper
-      { source: 11, target: 16, value: 175 }, // Technology -> Phones
-      { source: 11, target: 17, value: 175 } // Technology -> Accessories
-    ]
-  };
 
   // Product profit table data
   const productProfitTableData = [
@@ -307,7 +254,7 @@ export function AnalyticsDashboard() {
     {
       productName: 'Cisco TelePresence System EX90 Videoconferencing Unit',
       totalOrders: 8,
-      totalReverage: 22638.48,
+      totalRevenue: 22638.48,
       totalProfit: -2811.96,
       profitRatio: -12.4,
       rating: 2
@@ -878,74 +825,40 @@ export function AnalyticsDashboard() {
             </Card>
           </div>
 
-          {/* New Charts Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Profit by Category and Sub-category Bar Chart */}
-            <Card className="animate-fade-in">
-              <CardHeader>
-                <CardTitle>Profit by Category and Sub-category</CardTitle>
-                <CardDescription>Profit analysis across all sub-categories with loss highlighting</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={400}>
-                  <BarChart data={subCategoryProfitData} layout="horizontal">
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis type="number" />
-                    <YAxis dataKey="subCategory" type="category" width={80} tick={{ fontSize: 10 }} />
-                    <Tooltip 
-                      formatter={(value: any) => [
-                        formatCurrency(Number(value)), 
-                        value < 0 ? 'Loss' : 'Profit'
-                      ]}
-                      labelFormatter={(label) => `Sub-category: ${label}`}
-                    />
-                    <Bar dataKey="profit" name="Total Profit">
-                      {subCategoryProfitData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.profit < 0 ? '#EF4444' : '#10B981'} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-
-            {/* Sankey Diagram Filters */}
-            <Card className="animate-fade-in">
-              <CardHeader>
-                <CardTitle>Product Flow Analysis</CardTitle>
-                <CardDescription>Interactive flow from State → City → Category → Sub-category</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[400px] flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-lg font-semibold text-gray-700 mb-2">Product Flow Visualization</div>
-                    <div className="text-sm text-gray-500 mb-4">Interactive Sankey diagram showing product distribution flow</div>
-                    <div className="grid grid-cols-4 gap-4 text-xs">
-                      <div className="bg-blue-100 p-2 rounded">
-                        <div className="font-semibold">States</div>
-                        <div>CA, NY, TX, WA</div>
-                      </div>
-                      <div className="bg-green-100 p-2 rounded">
-                        <div className="font-semibold">Cities</div>
-                        <div>LA, SF, NYC, Houston</div>
-                      </div>
-                      <div className="bg-purple-100 p-2 rounded">
-                        <div className="font-semibold">Categories</div>
-                        <div>Furniture, Office, Tech</div>
-                      </div>
-                      <div className="bg-orange-100 p-2 rounded">
-                        <div className="font-semibold">Sub-categories</div>
-                        <div>Chairs, Binders, Phones</div>
-                      </div>
-                    </div>
-                    <div className="mt-4 text-xs text-gray-400">
-                      Note: Interactive Sankey diagram requires specialized charting library
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          {/* Single Chart Row - Only Profit by Category and Sub-category */}
+          <Card className="animate-fade-in">
+            <CardHeader>
+              <CardTitle>Profit by Category and Sub-category</CardTitle>
+              <CardDescription>Profit analysis across all sub-categories with loss highlighting</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={500}>
+                <BarChart data={subCategoryProfitData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis 
+                    dataKey="subCategory" 
+                    angle={-45} 
+                    textAnchor="end" 
+                    height={120}
+                    tick={{ fontSize: 10 }}
+                  />
+                  <YAxis tick={{ fontSize: 10 }} />
+                  <Tooltip 
+                    formatter={(value: any) => [
+                      formatCurrency(Number(value)), 
+                      value < 0 ? 'Loss' : 'Profit'
+                    ]}
+                    labelFormatter={(label) => `Sub-category: ${label}`}
+                  />
+                  <Bar dataKey="profit" name="Total Profit">
+                    {subCategoryProfitData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.profit < 0 ? '#EF4444' : '#10B981'} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
 
           {/* Product Profit Table */}
           <Card className="animate-fade-in">
