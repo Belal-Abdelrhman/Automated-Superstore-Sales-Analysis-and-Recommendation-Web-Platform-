@@ -899,11 +899,7 @@ export function AnalyticsDashboard() {
                       ]}
                       labelFormatter={(label) => `Sub-category: ${label}`}
                     />
-                    <Bar 
-                      dataKey="profit" 
-                      fill={(entry: any) => entry.profit < 0 ? '#EF4444' : '#10B981'}
-                      name="Total Profit"
-                    >
+                    <Bar dataKey="profit" name="Total Profit">
                       {subCategoryProfitData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.profit < 0 ? '#EF4444' : '#10B981'} />
                       ))}
