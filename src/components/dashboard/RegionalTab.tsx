@@ -27,29 +27,34 @@ export function RegionalTab() {
           <CardDescription>Geographic visualization of profit distribution across U.S. states</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="mb-4">
-            <div className="flex items-center gap-4 text-sm">
+          <div className="mb-6">
+            <div className="flex items-center justify-center gap-6 text-sm bg-gray-50 p-4 rounded-lg">
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-red-500 rounded"></div>
-                <span>Loss</span>
+                <div className="w-4 h-4 bg-red-500 rounded border"></div>
+                <span className="font-medium">Loss</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-yellow-200 rounded"></div>
-                <span>Low Profit</span>
+                <div className="w-4 h-4 bg-yellow-200 rounded border"></div>
+                <span className="font-medium">Low Profit</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-green-300 rounded"></div>
-                <span>Medium Profit</span>
+                <div className="w-4 h-4 bg-green-300 rounded border"></div>
+                <span className="font-medium">Medium Profit</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-green-600 rounded"></div>
-                <span>High Profit</span>
+                <div className="w-4 h-4 bg-green-600 rounded border"></div>
+                <span className="font-medium">High Profit</span>
               </div>
             </div>
           </div>
-          <div style={{ width: '100%', height: '400px' }}>
-            <ComposableMap projection="geoAlbersUsa" width={800} height={400}>
-              <ZoomableGroup>
+          <div className="w-full bg-white rounded-lg border p-4" style={{ height: '450px' }}>
+            <ComposableMap 
+              projection="geoAlbersUsa" 
+              width={900} 
+              height={400}
+              style={{ width: '100%', height: '100%' }}
+            >
+              <ZoomableGroup center={[-97, 40]} zoom={1}>
                 <Geographies geography={geoUrl}>
                   {({ geographies }) =>
                     geographies.map((geo) => {
@@ -63,10 +68,10 @@ export function RegionalTab() {
                           geography={geo}
                           fill={color}
                           stroke="#FFFFFF"
-                          strokeWidth={0.5}
+                          strokeWidth={1}
                           style={{
-                            default: { outline: 'none' },
-                            hover: { outline: 'none', fill: '#374151' },
+                            default: { outline: 'none', cursor: 'pointer' },
+                            hover: { outline: 'none', fill: '#374151', cursor: 'pointer' },
                             pressed: { outline: 'none' },
                           }}
                         />
@@ -89,17 +94,40 @@ export function RegionalTab() {
             <CardDescription>New customers acquired by region each year</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={regionalCustomerGrowthData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="year" />
-                <YAxis />
-                <Tooltip formatter={(value) => [`${value} customers`, '']} />
-                <Legend />
-                <Bar dataKey="East" fill="#3B82F6" />
-                <Bar dataKey="West" fill="#10B981" />
-                <Bar dataKey="Central" fill="#F59E0B" />
-                <Bar dataKey="South" fill="#EF4444" />
+            <ResponsiveContainer width="100%" height={350}>
+              <BarChart 
+                data={regionalCustomerGrowthData}
+                margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis 
+                  dataKey="year" 
+                  tick={{ fontSize: 12, fill: '#666' }}
+                  axisLine={{ stroke: '#e0e0e0' }}
+                  tickLine={{ stroke: '#e0e0e0' }}
+                />
+                <YAxis 
+                  tick={{ fontSize: 12, fill: '#666' }}
+                  axisLine={{ stroke: '#e0e0e0' }}
+                  tickLine={{ stroke: '#e0e0e0' }}
+                />
+                <Tooltip 
+                  formatter={(value) => [`${value} customers`, '']}
+                  contentStyle={{
+                    backgroundColor: 'white',
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  }}
+                />
+                <Legend 
+                  wrapperStyle={{ paddingTop: '20px' }}
+                  iconType="rect"
+                />
+                <Bar dataKey="East" fill="#3B82F6" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="West" fill="#10B981" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="Central" fill="#F59E0B" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="South" fill="#EF4444" radius={[2, 2, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -112,17 +140,40 @@ export function RegionalTab() {
             <CardDescription>Total sales amount by region each year</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={regionalSalesByYearData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="year" />
-                <YAxis />
-                <Tooltip formatter={(value) => [formatCurrency(Number(value)), 'Sales']} />
-                <Legend />
-                <Bar dataKey="East" fill="#3B82F6" />
-                <Bar dataKey="West" fill="#10B981" />
-                <Bar dataKey="Central" fill="#F59E0B" />
-                <Bar dataKey="South" fill="#EF4444" />
+            <ResponsiveContainer width="100%" height={350}>
+              <BarChart 
+                data={regionalSalesByYearData}
+                margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis 
+                  dataKey="year" 
+                  tick={{ fontSize: 12, fill: '#666' }}
+                  axisLine={{ stroke: '#e0e0e0' }}
+                  tickLine={{ stroke: '#e0e0e0' }}
+                />
+                <YAxis 
+                  tick={{ fontSize: 12, fill: '#666' }}
+                  axisLine={{ stroke: '#e0e0e0' }}
+                  tickLine={{ stroke: '#e0e0e0' }}
+                />
+                <Tooltip 
+                  formatter={(value) => [formatCurrency(Number(value)), 'Sales']}
+                  contentStyle={{
+                    backgroundColor: 'white',
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  }}
+                />
+                <Legend 
+                  wrapperStyle={{ paddingTop: '20px' }}
+                  iconType="rect"
+                />
+                <Bar dataKey="East" fill="#3B82F6" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="West" fill="#10B981" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="Central" fill="#F59E0B" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="South" fill="#EF4444" radius={[2, 2, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>

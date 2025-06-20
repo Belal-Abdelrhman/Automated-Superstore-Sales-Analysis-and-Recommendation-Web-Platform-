@@ -28,15 +28,51 @@ export function OverviewTab({ analyticsData }: OverviewTabProps) {
           <CardDescription>Revenue and profit trends analysis</CardDescription>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={analyticsData.monthlyTrends}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-              <Legend />
-              <Line type="monotone" dataKey="sales" stroke="#3B82F6" strokeWidth={3} name="Total Revenue" />
-              <Line type="monotone" dataKey="profit" stroke="#10B981" strokeWidth={3} name="Total Profit" />
+          <ResponsiveContainer width="100%" height={350}>
+            <LineChart 
+              data={analyticsData.monthlyTrends}
+              margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <XAxis 
+                dataKey="month" 
+                tick={{ fontSize: 12, fill: '#666' }}
+                axisLine={{ stroke: '#e0e0e0' }}
+                tickLine={{ stroke: '#e0e0e0' }}
+              />
+              <YAxis 
+                tick={{ fontSize: 12, fill: '#666' }}
+                axisLine={{ stroke: '#e0e0e0' }}
+                tickLine={{ stroke: '#e0e0e0' }}
+              />
+              <Tooltip 
+                formatter={(value) => formatCurrency(Number(value))}
+                contentStyle={{
+                  backgroundColor: 'white',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                }}
+              />
+              <Legend wrapperStyle={{ paddingTop: '20px' }} />
+              <Line 
+                type="monotone" 
+                dataKey="sales" 
+                stroke="#3B82F6" 
+                strokeWidth={3} 
+                name="Total Revenue"
+                dot={{ fill: '#3B82F6', strokeWidth: 2, r: 4 }}
+                activeDot={{ r: 6, stroke: '#3B82F6', strokeWidth: 2 }}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="profit" 
+                stroke="#10B981" 
+                strokeWidth={3} 
+                name="Total Profit"
+                dot={{ fill: '#10B981', strokeWidth: 2, r: 4 }}
+                activeDot={{ r: 6, stroke: '#10B981', strokeWidth: 2 }}
+              />
             </LineChart>
           </ResponsiveContainer>
         </CardContent>
@@ -46,11 +82,11 @@ export function OverviewTab({ analyticsData }: OverviewTabProps) {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
         {/* Category Revenue */}
         <Card className="animate-fade-in">
-          <CardHeader>
-            <CardTitle className="text-sm">Category Revenue</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Category Revenue</CardTitle>
           </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={200}>
+          <CardContent className="pt-2">
+            <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
                   data={analyticsData.salesByCategory}
@@ -58,7 +94,7 @@ export function OverviewTab({ analyticsData }: OverviewTabProps) {
                   cy="50%"
                   labelLine={false}
                   label={CustomPieLabel}
-                  outerRadius={60}
+                  outerRadius={70}
                   fill="#8884d8"
                   dataKey="sales"
                   nameKey="category"
@@ -67,9 +103,18 @@ export function OverviewTab({ analyticsData }: OverviewTabProps) {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                <Tooltip 
+                  formatter={(value) => formatCurrency(Number(value))}
+                  contentStyle={{
+                    backgroundColor: 'white',
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                    fontSize: '12px'
+                  }}
+                />
                 <Legend 
-                  wrapperStyle={{ fontSize: '10px' }}
+                  wrapperStyle={{ fontSize: '10px', paddingTop: '10px' }}
                   iconType="circle"
                 />
               </PieChart>
@@ -79,11 +124,11 @@ export function OverviewTab({ analyticsData }: OverviewTabProps) {
 
         {/* Segment Revenue */}
         <Card className="animate-fade-in">
-          <CardHeader>
-            <CardTitle className="text-sm">Segment Revenue</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Segment Revenue</CardTitle>
           </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={200}>
+          <CardContent className="pt-2">
+            <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
                   data={segmentData}
@@ -91,7 +136,7 @@ export function OverviewTab({ analyticsData }: OverviewTabProps) {
                   cy="50%"
                   labelLine={false}
                   label={CustomPieLabel}
-                  outerRadius={60}
+                  outerRadius={70}
                   fill="#8884d8"
                   dataKey="revenue"
                   nameKey="segment"
@@ -100,9 +145,18 @@ export function OverviewTab({ analyticsData }: OverviewTabProps) {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                <Tooltip 
+                  formatter={(value) => formatCurrency(Number(value))}
+                  contentStyle={{
+                    backgroundColor: 'white',
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                    fontSize: '12px'
+                  }}
+                />
                 <Legend 
-                  wrapperStyle={{ fontSize: '10px' }}
+                  wrapperStyle={{ fontSize: '10px', paddingTop: '10px' }}
                   iconType="circle"
                 />
               </PieChart>
@@ -112,17 +166,41 @@ export function OverviewTab({ analyticsData }: OverviewTabProps) {
 
         {/* Region Revenue Distribution */}
         <Card className="animate-fade-in">
-          <CardHeader>
-            <CardTitle className="text-sm">Region Revenue</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Region Revenue</CardTitle>
           </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={200}>
-              <BarChart data={analyticsData.salesByRegion}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="region" tick={{ fontSize: 10 }} />
-                <YAxis tick={{ fontSize: 10 }} />
-                <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                <Bar dataKey="sales" fill="#3B82F6" />
+          <CardContent className="pt-2">
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart 
+                data={analyticsData.salesByRegion}
+                margin={{ top: 10, right: 10, left: 10, bottom: 40 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis 
+                  dataKey="region" 
+                  tick={{ fontSize: 10, fill: '#666' }} 
+                  angle={-45} 
+                  textAnchor="end" 
+                  height={50}
+                  axisLine={{ stroke: '#e0e0e0' }}
+                  tickLine={{ stroke: '#e0e0e0' }}
+                />
+                <YAxis 
+                  tick={{ fontSize: 10, fill: '#666' }}
+                  axisLine={{ stroke: '#e0e0e0' }}
+                  tickLine={{ stroke: '#e0e0e0' }}
+                />
+                <Tooltip 
+                  formatter={(value) => formatCurrency(Number(value))}
+                  contentStyle={{
+                    backgroundColor: 'white',
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                    fontSize: '12px'
+                  }}
+                />
+                <Bar dataKey="sales" fill="#3B82F6" radius={[2, 2, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -130,17 +208,41 @@ export function OverviewTab({ analyticsData }: OverviewTabProps) {
 
         {/* Ship Mode Revenue */}
         <Card className="animate-fade-in">
-          <CardHeader>
-            <CardTitle className="text-sm">Ship Mode Revenue</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Ship Mode Revenue</CardTitle>
           </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={200}>
-              <BarChart data={shipModeData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="mode" tick={{ fontSize: 8 }} angle={-45} textAnchor="end" height={60} />
-                <YAxis tick={{ fontSize: 10 }} />
-                <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                <Bar dataKey="revenue" fill="#10B981" />
+          <CardContent className="pt-2">
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart 
+                data={shipModeData}
+                margin={{ top: 10, right: 10, left: 10, bottom: 60 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis 
+                  dataKey="mode" 
+                  tick={{ fontSize: 9, fill: '#666' }} 
+                  angle={-45} 
+                  textAnchor="end" 
+                  height={70}
+                  axisLine={{ stroke: '#e0e0e0' }}
+                  tickLine={{ stroke: '#e0e0e0' }}
+                />
+                <YAxis 
+                  tick={{ fontSize: 10, fill: '#666' }}
+                  axisLine={{ stroke: '#e0e0e0' }}
+                  tickLine={{ stroke: '#e0e0e0' }}
+                />
+                <Tooltip 
+                  formatter={(value) => formatCurrency(Number(value))}
+                  contentStyle={{
+                    backgroundColor: 'white',
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                    fontSize: '12px'
+                  }}
+                />
+                <Bar dataKey="revenue" fill="#10B981" radius={[2, 2, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -148,17 +250,41 @@ export function OverviewTab({ analyticsData }: OverviewTabProps) {
 
         {/* Customer Reviews Chart */}
         <Card className="animate-fade-in">
-          <CardHeader>
-            <CardTitle className="text-sm">Customer Reviews</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Customer Reviews</CardTitle>
           </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={200}>
-              <BarChart data={customerReviewsData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="rating" tick={{ fontSize: 8 }} angle={-45} textAnchor="end" height={60} />
-                <YAxis tick={{ fontSize: 10 }} />
-                <Tooltip formatter={(value) => [`${value} reviews`, 'Count']} />
-                <Bar dataKey="count" fill="#F59E0B" />
+          <CardContent className="pt-2">
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart 
+                data={customerReviewsData}
+                margin={{ top: 10, right: 10, left: 10, bottom: 50 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis 
+                  dataKey="rating" 
+                  tick={{ fontSize: 9, fill: '#666' }} 
+                  angle={-45} 
+                  textAnchor="end" 
+                  height={60}
+                  axisLine={{ stroke: '#e0e0e0' }}
+                  tickLine={{ stroke: '#e0e0e0' }}
+                />
+                <YAxis 
+                  tick={{ fontSize: 10, fill: '#666' }}
+                  axisLine={{ stroke: '#e0e0e0' }}
+                  tickLine={{ stroke: '#e0e0e0' }}
+                />
+                <Tooltip 
+                  formatter={(value) => [`${value} reviews`, 'Count']}
+                  contentStyle={{
+                    backgroundColor: 'white',
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                    fontSize: '12px'
+                  }}
+                />
+                <Bar dataKey="count" fill="#F59E0B" radius={[2, 2, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
