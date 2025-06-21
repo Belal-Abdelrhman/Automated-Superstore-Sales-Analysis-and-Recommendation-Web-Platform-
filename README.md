@@ -1,73 +1,145 @@
-# Welcome to your Lovable project
+### Automated Superstore Sales Analysis Recommendation Web Platform
 
-## Project info
+This project is a complete business intelligence and AI solution built to analyze sales data, extract actionable insights, segment customers, and provide personalized product recommendations — all integrated into an interactive web platform. It combines Python, Power BI, Machine Learning, and a full-stack web app to demonstrate the power of data-driven decision-making in retail.
 
-**URL**: https://lovable.dev/projects/3ac0f977-96a6-41c6-a0ac-1789939b3082
+🔍 Project Highlights
+🧼 Data cleaning and preprocessing with pandas & NumPy
 
-## How can I edit this code?
+📊 Exploratory Data Analysis (EDA) using matplotlib and seaborn
 
-There are several ways of editing your application.
+📈 Dashboard development using Power BI
 
-**Use Lovable**
+🤖 Customer segmentation via K-Means (scikit-learn)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/3ac0f977-96a6-41c6-a0ac-1789939b3082) and start prompting.
+🎯 Product recommendation based on customer clusters
 
-Changes made via Lovable will be committed automatically to this repo.
+🌐 Web deployment using Flask (Python backend) and React (frontend)
 
-**Use your preferred IDE**
+💡 Key Features
+Upload and analyze Superstore-style CSV data
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Generate automated analytics and business KPIs
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Segment customers using unsupervised learning
 
-Follow these steps:
+Provide personalized product recommendations
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Visualize sales, trends, and customer behavior using dashboards
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Fully interactive web interface with a clean, modern design
 
-# Step 3: Install the necessary dependencies.
-npm i
+🛠 Technology Stack
+Layer	Tools Used
+Programming Language	Python (Data + Backend), TypeScript (Frontend)
+Data Analysis	pandas, NumPy
+Data Visualization (EDA)	matplotlib, seaborn
+Machine Learning	scikit-learn (KMeans, StandardScaler)
+Dashboarding	Power BI
+Backend	Flask
+Frontend	React, Vite, Tailwind CSS, shadcn/ui, Lucide Icons
+CSV Parsing	PapaParse
+State Management	React Context API, TanStack Query
+Mapping	React Simple Maps + TopoJSON
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+💻 How to Run the Project
+🔹 Jupyter Notebook (Python - Data Analysis & ML)
+Clone the repo:
+
+bash
+Copy
+Edit
+git clone https://github.com/your-username/superstore-analytics.git
+cd notebooks/
+Launch Jupyter Notebook:
+
+bash
+Copy
+Edit
+jupyter notebook
+Run the notebooks in sequence:
+
+01_Data_Cleaning.ipynb
+
+02_EDA.ipynb
+
+03_Clustering_and_Recommendation.ipynb
+
+🔹 Power BI Dashboard
+Open the Superstore_PowerBI.pbix file using Microsoft Power BI Desktop.
+
+Refresh data and interact with:
+
+Sales, profit, and discount trends
+
+Region/state/category-based analysis
+
+Customer segmentation overview
+
+🔹 Web Application (React + Flask)
+Backend Setup (Flask)
+
+bash
+Copy
+Edit
+cd backend/
+pip install -r requirements.txt
+python app.py
+Frontend Setup (React + Vite)
+
+bash
+Copy
+Edit
+cd frontend/
+npm install
 npm run dev
-```
+Open in browser:
 
-**Edit a file directly in GitHub**
+arduino
+Copy
+Edit
+http://localhost:5173
+🌐 Features of the Web Platform
+Multi-step UI flow (User info → CSV upload → Dashboard → Recommendations)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Visual KPIs, pie charts, line graphs, and choropleth maps
 
-**Use GitHub Codespaces**
+Customer segment selection and recommendation cards
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Fully responsive design with professional UX
 
-## What technologies are used for this project?
+📂 Required CSV Format
+Your file must include the following 22 columns:
 
-This project is built with:
+csv
+Copy
+Edit
+order id, order date, ship date, ship mode, customer id, customer name, segment, country,
+city, state, postal code, region, product id, category, sub-category, product name,
+sales, quantity, discount, profit, days to ship, rating
+📸 Screenshots
+<insert dashboard screenshots, app UI, and sample charts here>
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+🚀 Deployment
+The platform was deployed locally using a lightweight Flask server. Future enhancements include:
 
-## How can I deploy this project?
+Hosting the web app with a cloud backend
 
-Simply open [Lovable](https://lovable.dev/projects/3ac0f977-96a6-41c6-a0ac-1789939b3082) and click on Share -> Publish.
+Live database support
 
-## Can I connect a custom domain to my Lovable project?
+Exportable PDF reports
 
-Yes, you can!
+User authentication
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+📈 Project Structure
+bash
+Copy
+Edit
+superstore-analytics/
+├── notebooks/                  # Jupyter notebooks for EDA, clustering, recommendation
+├── powerbi/                    # Power BI file
+├── backend/                    # Flask API for recommendation logic
+├── frontend/                   # React + Vite frontend
+└── README.md                   # This file
+📫 Contact
+Developed by Belal Abdelrhman
+LinkedIn | Email
