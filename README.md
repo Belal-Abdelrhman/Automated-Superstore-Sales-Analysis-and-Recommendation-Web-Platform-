@@ -1,4 +1,4 @@
-### Automated Superstore Sales Analysis Recommendation Web Platform
+# Automated Superstore Sales Analysis Recommendation Web Platform
 
 This project is a complete business intelligence and AI solution built to analyze sales data, extract actionable insights, segment customers, and provide personalized product recommendations — all integrated into an interactive web platform. It combines Python, Power BI, Machine Learning, and a full-stack web app to demonstrate the power of data-driven decision-making in retail.
 
