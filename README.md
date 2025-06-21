@@ -2,7 +2,7 @@
 
 This project is a complete business intelligence and AI solution built to analyze sales data, extract actionable insights, segment customers, and provide personalized product recommendations — all integrated into an interactive web platform. It combines Python, Power BI, Machine Learning, and a full-stack web app to demonstrate the power of data-driven decision-making in retail.
 
-🔍 Project Highlights
+## 🔍 Project Highlights
 🧼 Data cleaning and preprocessing with pandas & NumPy
 
 📊 Exploratory Data Analysis (EDA) using matplotlib and seaborn
@@ -15,7 +15,7 @@ This project is a complete business intelligence and AI solution built to analyz
 
 🌐 Web deployment using Flask (Python backend) and React (frontend)
 
-💡 Key Features
+## 💡 Key Features
 Upload and analyze Superstore-style CSV data
 
 Generate automated analytics and business KPIs
@@ -28,7 +28,7 @@ Visualize sales, trends, and customer behavior using dashboards
 
 Fully interactive web interface with a clean, modern design
 
-🛠 Technology Stack
+## 🛠 Technology Stack
 Layer	Tools Used
 Programming Language	Python (Data + Backend), TypeScript (Frontend)
 Data Analysis	pandas, NumPy
@@ -41,7 +41,7 @@ CSV Parsing	PapaParse
 State Management	React Context API, TanStack Query
 Mapping	React Simple Maps + TopoJSON
 
-💻 How to Run the Project
+## 💻 How to Run the Project
 🔹 Jupyter Notebook (Python - Data Analysis & ML)
 Clone the repo:
 
@@ -64,7 +64,7 @@ Run the notebooks in sequence:
 
 03_Clustering_and_Recommendation.ipynb
 
-🔹 Power BI Dashboard
+## 🔹 Power BI Dashboard
 Open the Superstore_PowerBI.pbix file using Microsoft Power BI Desktop.
 
 Refresh data and interact with:
@@ -75,7 +75,7 @@ Region/state/category-based analysis
 
 Customer segmentation overview
 
-🔹 Web Application (React + Flask)
+## 🔹 Web Application (React + Flask)
 Backend Setup (Flask)
 
 bash
@@ -98,7 +98,7 @@ arduino
 Copy
 Edit
 http://localhost:5173
-🌐 Features of the Web Platform
+## 🌐 Features of the Web Platform
 Multi-step UI flow (User info → CSV upload → Dashboard → Recommendations)
 
 Visual KPIs, pie charts, line graphs, and choropleth maps
@@ -107,7 +107,7 @@ Customer segment selection and recommendation cards
 
 Fully responsive design with professional UX
 
-📂 Required CSV Format
+## 📂 Required CSV Format
 Your file must include the following 22 columns:
 
 csv
@@ -119,7 +119,7 @@ sales, quantity, discount, profit, days to ship, rating
 📸 Screenshots
 <insert dashboard screenshots, app UI, and sample charts here>
 
-🚀 Deployment
+## 🚀 Deployment
 The platform was deployed locally using a lightweight Flask server. Future enhancements include:
 
 Hosting the web app with a cloud backend
@@ -130,7 +130,7 @@ Exportable PDF reports
 
 User authentication
 
-📈 Project Structure
+## 📈 Project Structure
 bash
 Copy
 Edit
@@ -142,4 +142,4 @@ superstore-analytics/
 └── README.md                   # This file
 📫 Contact
 Developed by Belal Abdelrhman
-LinkedIn | Email
+https://www.linkedin.com/in/belal-abdelrhman | Belal.A.Fikry@gmail.com
